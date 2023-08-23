@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dose of Jokes</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <h1>~ Be happy and read your joke ~</h1>
+
+
+    <form action="/" method="POST">
+        <label for="category">Category :</label>
+
+        <select name="category" id="category">
+        <option value="any" selected>Any</option>
+        <option value="misc">Misc</option>
+        <option value="programming">Programming</option>
+        <option value="dark">Dark</option>
+        <option value="pun">Pun</option>
+        <option value="spooky">Spooky</option>
+        <option value="christmas">Christmas</option>
+        </select>
+
+        <label for="flags">BlackList :</label>
+        
+        <select id="flags" name="flags" multiple>
+            <option value="nsfw">NSFW</option>
+            <option value="religious">Religious</option>
+            <option value="political">Political</option>
+            <option value="racist">Racist</option>
+            <option value="sexist">Sexist</option>
+            <option value="explicit">Explicit</option>
+        </select>
+
+        <input type="submit" value="Tell me a joke!"/>
+    </form>
+    
+    <div class="joke-section">
+        <% if (locals.content) { if (content["error"] == false) { %>
+            <p>Category: <%= content["category"]  %></p>
+            <% if (content["type"] == "single") { %>
+                <h2><%= content["joke"] %></h2>
+            <% } else { %>
+                <h2>- <%= content["setup"] %></h2>
+                <h2>- <%= content["delivery"] %></h2>
+            <% } %>
+            <% if (content["flags"]) { %>
+                <div class="joke-flags">
+                    <p>FLAGS: </p>
+                    <% var ff = false;
+                     for (var f in content["flags"]) { %>
+                        <% if (content["flags"][f] == true) {
+                            ff = true %>
+                            <p>&nbsp; <%= f %> &nbsp;</p>
+                        <% } %> 
+                    <% } 
+                    if (ff == false) { %>
+                        <p>&nbsp;---</p>
+                    <% } %>
+
+                </div>
+            <% } %>
+        <% } else { %>
+            <h2><%= content["message"] %></h2>
+            <p><%= content["causedBy"] %></p>
+        <% } %>
+        <% } %>
+    </div>
+
+    <footer>
+        <p>Created by Angeliki N. © <%= new Date().getFullYear() %></p>
+        <p>Made with <a href="https://v2.jokeapi.dev/">JokeAPI</a></p>
+    </footer>
+</body>
+</html>
